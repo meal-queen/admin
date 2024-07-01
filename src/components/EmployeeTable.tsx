@@ -1,28 +1,41 @@
 import { FC, useEffect, useState } from 'react';
+import { Header, Pagination, TextFilter } from '@cloudscape-design/components';
 import Table from '@cloudscape-design/components/table';
 import Box from '@cloudscape-design/components/box';
 import SpaceBetween from '@cloudscape-design/components/space-between';
-import Header from '@cloudscape-design/components/header';
-import Pagination from '@cloudscape-design/components/pagination';
-import Button from '@cloudscape-design/components/button';
-import axios from 'axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getCookie } from '../utils/cookies';
-import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import Button from '@cloudscape-design/components/button';
+import qs from 'query-string';
 
-const CompanyTable: FC = () => {
+const EmployeeTable: FC = () => {
   const [data, setData] = useState<any>();
   const { page } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const query = qs.parse(location.search);
 
   useEffect(() => {
-    axios(`http://localhost:8080/api/company/?page=${page ?? 0}&take=10`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getCookie('auth_token')}`,
-      },
-    }).then((res) => {
-      setData(res.data.data);
-    });
+    if (!query.company) navigate('/0');
+
+    axios(
+      `http://localhost:8080/api/company/users?page=${
+        page ?? 0
+      }&take=10&company=${query.company}&role=${query.role ?? 'ROLE_USER'}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getCookie('auth_token')}`,
+        },
+      }
+    )
+      .then((res) => {
+        setData(res.data.data);
+      })
+      .catch(() => {
+        navigate('/');
+      });
   }, [page]);
 
   return (
@@ -39,51 +52,34 @@ const CompanyTable: FC = () => {
             },
             {
               id: 'name',
-              header: '회사 이름',
+              header: '유저 이름',
               cell: (item: any) => item.name,
-            },
-            {
-              id: 'team',
-              header: '회사 소속',
-              cell: (item: any) => item.team,
-            },
-            {
-              id: 'point',
-              header: '남은 금액',
-              cell: (item: any) => item.point,
-            },
-            {
-              id: 'employee',
-              header: '직원 리스트',
-              cell: (item) => (
-                <Button
-                  onClick={() => {
-                    navigate(`/employee/0?company=${item.uuid}`);
-                  }}
-                >
-                  {item.name} 직원
-                </Button>
-              ),
-              minWidth: 170,
             },
           ]}
           loadingText="Loading resources"
           empty={
             <Box margin={{ vertical: 'xs' }} textAlign="center" color="inherit">
               <SpaceBetween size="m">
-                <b>No resources</b>
+                <b>No matches</b>
+                {/* <Button>Clear filter</Button> */}
               </SpaceBetween>
             </Box>
           }
+          // filter={
+          //   <TextFilter
+          //     filteringPlaceholder="Find resources"
+          //     filteringText="asdfjkl"
+          //   />
+          // }
           header={
             <Header
-              counter={
-                data.content.length
-                  ? '(' + data.content.length + '/10)'
-                  : '(10)'
-              }
+            // counter={
+            //   data.content.length
+            //     ? '(' + data.content.length + '/10)'
+            //     : '(10)'
+            // }
             >
-              가입 회사 리스트
+              가입 회사 직원 리스트
             </Header>
           }
           items={data.content}
@@ -108,4 +104,4 @@ const CompanyTable: FC = () => {
   );
 };
 
-export default CompanyTable;
+export default EmployeeTable;

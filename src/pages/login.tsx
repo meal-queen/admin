@@ -1,16 +1,8 @@
-import {
-  FC,
-  SetStateAction,
-  useEffect,
-  useState,
-  useRef,
-  FormEvent,
-} from 'react';
+import { FC, SetStateAction, useState, useRef, FormEvent } from 'react';
 import loginStyle from './login.module.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { setCookie } from '../utils/cookies';
-import { Navigate } from 'react-router-dom';
 
 const Login: FC = () => {
   const [id, setId] = useState('');
@@ -39,7 +31,7 @@ const Login: FC = () => {
     axios('http://localhost:8080/api/auth/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
       data: {
         username: id,

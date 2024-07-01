@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from '../pages/home';
-import Company from '../pages/company';
+import Employee from '../pages/employee';
 import axios from 'axios';
 import { getCookie } from '../utils/cookies';
 import Login from '../pages/login';
-import Business from '../pages/business';
+import Restaurant from '../pages/restaurant';
 
 const Routers: FC = () => {
   const location = useLocation();
@@ -15,7 +15,7 @@ const Routers: FC = () => {
     axios(import.meta.env.VITE_BACKEND + '/auth/@me', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${getCookie('auth_token')}`,
       },
     })
@@ -40,8 +40,11 @@ const Routers: FC = () => {
         <>
           {/* 로그인 되있는 사람 */}
           <Route path="/" element={<Home />} />
-          <Route path="/:name" element={<Company />} />
-          <Route path="/business" element={<Business />} />
+          <Route path="/:page" element={<Home />} />
+          <Route path="/employee/" element={<Employee />} />
+          <Route path="/employee/:page" element={<Employee />} />
+          <Route path="/restaurant/" element={<Restaurant />} />
+          <Route path="/restaurant/:page" element={<Restaurant />} />
         </>
       )}
     </Routes>

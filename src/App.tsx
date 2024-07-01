@@ -38,8 +38,8 @@ function App() {
                 },
                 {
                   type: 'link',
-                  text: '가입 업소 리스트',
-                  href: '/business',
+                  text: '가입 가맹점 리스트',
+                  href: '/restaurant',
                 },
                 {
                   type: 'link',

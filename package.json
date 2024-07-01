@@ -13,6 +13,8 @@
     "@cloudscape-design/components": "^3.0.604",
     "@cloudscape-design/global-styles": "^1.0.27",
     "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "query-string": "^9.0.0",
     "react": "^18.2.0",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.2.0",
@@ -20,6 +22,7 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@types/node": "^20.14.9",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
