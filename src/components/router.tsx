@@ -12,12 +12,13 @@ const Routers: FC = () => {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    axios(import.meta.env.VITE_BACKEND + '/auth/@me', {
+    axios('/api/api/auth/@me', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getCookie('auth_token')}`,
       },
+      withCredentials: true,
     })
       .then((res) => {
         setUser(res.data.data);
@@ -33,12 +34,10 @@ const Routers: FC = () => {
     <Routes location={location} key={location.key}>
       {user == null ? (
         <>
-          {/* 로그인 안되있는 사람 */}
           <Route path="/auth/login" element={<Login />} />
         </>
       ) : (
         <>
-          {/* 로그인 되있는 사람 */}
           <Route path="/" element={<Home />} />
           <Route path="/:page" element={<Home />} />
           <Route path="/employee/" element={<Employee />} />

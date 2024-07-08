@@ -1,4 +1,4 @@
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import {
   AppLayout,
   HelpPanel,
@@ -12,14 +12,12 @@ import Routers from './components/router';
 const LOCALE = 'ko';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-
   const [navi, setNavi] = useState(true);
   const [helpPanel, setHelpPanel] = useState(false);
 
   return (
     <I18nProvider locale={LOCALE} messages={[messages]}>
-      {window.location.pathname.startsWith('/auth') ? (
+      {window.location.pathname.startsWith('/auth/') ? (
         <BrowserRouter>
           <Routers />
         </BrowserRouter>
@@ -44,16 +42,14 @@ function App() {
                 {
                   type: 'link',
                   text: '수락 대기',
-                  href: '#',
+                  href: '/wait',
                 },
               ]}
             />
           }
           toolsOpen={helpPanel}
           onToolsChange={() => setHelpPanel((e) => (!e ? true : false))}
-          tools={
-            <HelpPanel header={<h2>식사임당</h2>}>관리자 페이지</HelpPanel>
-          }
+          tools={<HelpPanel header={<h2>가맹점</h2>}>관리자 페이지</HelpPanel>}
           content={
             <BrowserRouter>
               <Routers />

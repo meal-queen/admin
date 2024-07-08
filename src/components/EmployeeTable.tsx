@@ -20,9 +20,9 @@ const EmployeeTable: FC = () => {
     if (!query.company) navigate('/0');
 
     axios(
-      `http://localhost:8080/api/company/users?page=${
-        page ?? 0
-      }&take=10&company=${query.company}&role=${query.role ?? 'ROLE_USER'}`,
+      `/api/company/users?page=${page ?? 0}&take=10&company=${
+        query.company
+      }&role=${query.role ?? 'ROLE_USER'}`,
       {
         method: 'GET',
         headers: {

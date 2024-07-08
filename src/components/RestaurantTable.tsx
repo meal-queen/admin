@@ -14,7 +14,7 @@ const RestaurantTable: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`http://localhost:8080/api/restaurant/?page=${page ?? 0}&take=10`, {
+    axios(`/api/restaurant/?page=${page ?? 0}&take=10`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getCookie('auth_token')}`,

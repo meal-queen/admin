@@ -28,7 +28,7 @@ const Login: FC = () => {
   const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axios('http://localhost:8080/api/auth/login', {
+    axios('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,9 +41,11 @@ const Login: FC = () => {
       .then((res) => {
         setCookie('auth_token', res.data.data, { path: '/' });
         window.location.href = '/';
+        toast.success('이동할뻔');
       })
       .catch((err) => {
         toast.error(err.response.data.message);
+        toast.error('빠꾸');
       });
   };
 

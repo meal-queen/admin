@@ -9,13 +9,13 @@ import axios from 'axios';
 import { getCookie } from '../utils/cookies';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const CompanyTable: FC = () => {
+const WaitTable: FC = () => {
   const [data, setData] = useState<any>();
   const { page } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios(`/api/company/?page=${page ?? 0}&take=10`, {
+    axios(`api/company/?page=${page ?? 0}&take=10`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${getCookie('auth_token')}`,
@@ -38,30 +38,20 @@ const CompanyTable: FC = () => {
               cell: (item: any) => item.uuid,
             },
             {
-              id: 'name',
-              header: '회사 이름',
-              cell: (item: any) => item.name,
-            },
-            {
               id: 'team',
               header: '회사 소속',
               cell: (item: any) => item.team,
             },
             {
-              id: 'point',
-              header: '남은 금액',
-              cell: (item: any) => item.point,
-            },
-            {
-              id: 'employee',
-              header: '직원 리스트',
+              id: 'accept',
+              header: '수락 여부',
               cell: (item) => (
                 <Button
                   onClick={() => {
                     navigate(`/employee/0?company=${item.uuid}`);
                   }}
                 >
-                  {item.name} 직원
+                  수락하기
                 </Button>
               ),
               minWidth: 170,
@@ -83,7 +73,7 @@ const CompanyTable: FC = () => {
                   : '(10)'
               }
             >
-              가입 회사 리스트
+              수락 대기 회사 리스트
             </Header>
           }
           items={data.content}
@@ -108,4 +98,4 @@ const CompanyTable: FC = () => {
   );
 };
 
-export default CompanyTable;
+export default WaitTable;
